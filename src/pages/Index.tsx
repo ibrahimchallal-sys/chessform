@@ -130,7 +130,10 @@ const Index = () => {
         toast({
           variant: "destructive",
           title: "Échec de l'inscription",
-          description: error.message || "Veuillez réessayer ou contacter l'organisateur.",
+          description:
+            error.code === "23505"
+              ? "Cet email ou ce numéro de téléphone est déjà inscrit."
+              : error.message || "Veuillez réessayer ou contacter l'organisateur.",
         });
         return;
       }
