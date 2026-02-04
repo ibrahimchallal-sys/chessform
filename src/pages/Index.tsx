@@ -48,7 +48,7 @@ const groupOptions = [
   { value: "IDOSR204", label: "IDOSR204", category: "ID" },
 ];
 
-const emailPattern = /^\d{10}@offpt-edu\.ma$/;
+const emailPattern = /^\d{13}@ofppt-edu\.ma$/;
 const moroccanPhonePattern = /^(?:\+212|0)([ \-]?\d){9}$/;
 
 const registrationSchema = z.object({
@@ -68,7 +68,7 @@ const registrationSchema = z.object({
     .string()
     .trim()
     .regex(emailPattern, {
-      message: "Email must be 10 digits followed by @offpt-edu.ma",
+      message: "Email must be 13 digits followed by @ofppt-edu.ma",
     })
     .max(255, { message: "Email must be less than 255 characters" }),
 });
@@ -235,8 +235,8 @@ const Index = () => {
                       <FormLabel>OFFPT email</FormLabel>
                       <FormControl>
                         <Input
-                          type="email"
-                          placeholder="0123456789@offpt-edu.ma"
+                           type="email"
+                           placeholder="0123456789012@ofppt-edu.ma"
                           autoComplete="email"
                           {...field}
                         />
