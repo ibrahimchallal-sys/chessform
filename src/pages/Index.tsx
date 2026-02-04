@@ -106,7 +106,10 @@ const Index = () => {
         toast({
           variant: "destructive",
           title: "Registration failed",
-          description: "Please try again or contact the organizer.",
+          description:
+            error.code === "23514"
+              ? "Server validation failed: please double-check your email format (13 digits + @ofppt-edu.ma)."
+              : error.message || "Please try again or contact the organizer.",
         });
         return;
       }
