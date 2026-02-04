@@ -127,10 +127,7 @@ const Index = () => {
         toast({
           variant: "destructive",
           title: "Registration failed",
-          description:
-            error.code === "23514"
-              ? `Server validation failed. Sent email: "${normalized.email}" (len ${normalized.email.length}), phone: "${normalized.phone}".`
-              : error.message || "Please try again or contact the organizer.",
+          description: error.message || "Please try again or contact the organizer.",
         });
         return;
       }
