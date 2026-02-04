@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import Lottie from "lottie-react";
+import chessPlayingAnimation from "@/assets/chess_playing.json";
 
 const groupOptions = [
   { value: "DD101", label: "DD101", category: "DEV" },
@@ -168,7 +170,7 @@ const Index = () => {
         </div>
 
         <div className="grid w-full max-w-4xl gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <div className="relative rounded-xl border bg-card p-6 shadow-sm">
+          <div className="relative rounded-xl border bg-card p-6 shadow-sm animate-enter">
             <div className="pointer-events-none absolute inset-0 rounded-xl border border-primary/10 shadow-[0_0_40px_-20px_hsl(var(--primary))]" />
 
             <Form {...form}>
@@ -274,7 +276,18 @@ const Index = () => {
             </Form>
           </div>
 
-          <aside className="space-y-4 rounded-xl border bg-card p-5 shadow-sm">
+          <aside className="space-y-4 rounded-xl border bg-card p-5 shadow-sm animate-enter">
+            <div className="rounded-lg bg-muted/40 p-3">
+              <div className="mx-auto w-full max-w-[280px]">
+                <Lottie
+                  animationData={chessPlayingAnimation}
+                  loop
+                  className="w-full"
+                  aria-label="Chess player animation"
+                />
+              </div>
+            </div>
+
             <h2 className="text-lg font-semibold tracking-tight">Tournament details</h2>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>• Swiss-system rounds with official timing.</li>
