@@ -58,19 +58,21 @@ const registrationSchema = z.object({
     .trim()
     .min(3, { message: "Full name must be at least 3 characters" })
     .max(100, { message: "Full name must be less than 100 characters" }),
-  phone: z
-    .string()
-    .trim()
-    .regex(moroccanPhonePattern, {
+  phone: z.preprocess(
+    (v) => (typeof v === "string" ? v.replace(/\s+/g, "").trim() : v),
+    z.string().regex(moroccanPhonePattern, {
       message: "Enter a valid Moroccan phone (0XXXXXXXXX or +212XXXXXXXXX)",
     }),
-  email: z
-    .string()
-    .trim()
-    .regex(emailPattern, {
-      message: "Email must be 13 digits followed by @ofppt-edu.ma",
-    })
-    .max(255, { message: "Email must be less than 255 characters" }),
+  ),
+  email: z.preprocess(
+    (v) => (typeof v === "string" ? v.replace(/\s+/g, "").trim() : v),
+    z
+      .string()
+      .regex(emailPattern, {
+        message: "Email must be 13 digits followed by @ofppt-edu.ma",
+      })
+      .max(255, { message: "Email must be less than 255 characters" }),
+  ),
 });
 
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
@@ -108,7 +110,7 @@ const Index = () => {
           title: "Registration failed",
           description:
             error.code === "23514"
-              ? "Server validation failed: please double-check your email format (13 digits + @ofppt-edu.ma)."
+              ? `Server validation failed: expected 13 digits + @ofppt-edu.ma. Sent: "${values.email}" (length ${values.email.length}).`
               : error.message || "Please try again or contact the organizer.",
         });
         return;
