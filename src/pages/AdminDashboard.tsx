@@ -18,8 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const LOCAL_STORAGE_KEY = "chess_tournament_registrations";
+import { supabase } from "@/integrations/supabase/client";
 
 type StoredRegistration = {
   id: string;
@@ -37,15 +36,31 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     document.title = "Chess Admin Dashboard";
-    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as StoredRegistration[];
-        setRegistrations(parsed);
-      } catch {
-        // ignore malformed data
+
+    const fetchRegistrations = async () => {
+      const { data, error } = await supabase
+        .from("registrations")
+        .select("id, created_at, group_code, full_name, phone, email")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error loading registrations", error);
+        return;
       }
-    }
+
+      const mapped: StoredRegistration[] = (data ?? []).map((r: any) => ({
+        id: r.id,
+        createdAt: r.created_at,
+        group: r.group_code,
+        fullName: r.full_name,
+        phone: r.phone,
+        email: r.email,
+      }));
+
+      setRegistrations(mapped);
+    };
+
+    fetchRegistrations();
   }, []);
 
   const filtered = useMemo(() => {
@@ -66,8 +81,21 @@ const AdminDashboard = () => {
     });
   }, [registrations, search, groupFilter]);
 
-  const clearAll = () => {
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
+  const clearAll = async () => {
+    if (!window.confirm("This will delete all registrations from the database. Are you sure?")) {
+      return;
+    }
+
+    const { error } = await supabase
+      .from("registrations")
+      .delete()
+      .gt("created_at", "1900-01-01");
+
+    if (error) {
+      console.error("Error clearing registrations", error);
+      return;
+    }
+
     setRegistrations([]);
   };
 

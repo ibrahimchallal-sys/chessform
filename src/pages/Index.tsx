@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const groupOptions = [
   { value: "DD101", label: "DD101", category: "DEV" },
@@ -74,8 +75,6 @@ const registrationSchema = z.object({
 
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
-const LOCAL_STORAGE_KEY = "chess_tournament_registrations";
-
 const Index = () => {
   const { toast } = useToast();
 
@@ -93,22 +92,39 @@ const Index = () => {
     document.title = "Chess Tournament Registration";
   }, []);
 
-  const onSubmit = (values: RegistrationFormValues) => {
-    const existingRaw = localStorage.getItem(LOCAL_STORAGE_KEY);
-    const existing = existingRaw ? JSON.parse(existingRaw) : [];
-    const newRecord = {
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      ...values,
-    };
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([newRecord, ...existing]));
+  const onSubmit = async (values: RegistrationFormValues) => {
+    try {
+      const { error } = await supabase.from("registrations").insert({
+        group_code: values.group,
+        full_name: values.fullName,
+        phone: values.phone,
+        email: values.email,
+      });
 
-    toast({
-      title: "Registration submitted",
-      description: "Good luck in the tournament!",
-    });
+      if (error) {
+        console.error("Error inserting registration", error);
+        toast({
+          variant: "destructive",
+          title: "Registration failed",
+          description: "Please try again or contact the organizer.",
+        });
+        return;
+      }
 
-    form.reset();
+      toast({
+        title: "Registration submitted",
+        description: "Good luck in the tournament!",
+      });
+
+      form.reset();
+    } catch (err) {
+      console.error("Unexpected error inserting registration", err);
+      toast({
+        variant: "destructive",
+        title: "Registration failed",
+        description: "Unexpected error, please try again shortly.",
+      });
+    }
   };
 
   const devGroups = groupOptions.filter((g) => g.category === "DEV");
@@ -248,7 +264,7 @@ const Index = () => {
               <li>• Only students with a valid OFFPT email can register.</li>
             </ul>
             <div className="rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-              Your data is stored only in this browser for demo purposes. An
+              Your data is stored securely in the tournament database. An
               administrator can view submissions in the dashboard.
             </div>
           </aside>
