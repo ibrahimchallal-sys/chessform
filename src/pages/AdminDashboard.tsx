@@ -123,6 +123,11 @@ const AdminDashboard = () => {
     setRegistrations([]);
   };
 
+  const logout = async () => {
+    await supabase.auth.signOut();
+    navigate(`/adminspace?redirect=${encodeURIComponent("/admin")}`, { replace: true });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/60">
       <div className="container py-10">
@@ -171,6 +176,10 @@ const AdminDashboard = () => {
                 disabled={registrations.length === 0}
               >
                 Clear all
+              </Button>
+
+              <Button variant="outline" type="button" onClick={logout}>
+                Log out
               </Button>
             </div>
 
