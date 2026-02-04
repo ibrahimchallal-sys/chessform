@@ -21,11 +21,13 @@ All colors MUST be HSL.
     --primary: 10 78% 52%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary: warm amber for highlights */
+    --secondary: 34 92% 92%;
+    --secondary-foreground: 14 55% 16%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted: peachy neutral to keep the UI lively */
+    --muted: 24 70% 94%;
+    --muted-foreground: 16 22% 36%;
 
     --accent: 18 92% 95%;
     --accent-foreground: 12 60% 18%;
@@ -33,8 +35,8 @@ All colors MUST be HSL.
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 18 28% 88%;
+    --input: 18 28% 88%;
     --ring: 10 78% 52%;
 
     --radius: 0.5rem;
@@ -69,11 +71,11 @@ All colors MUST be HSL.
     --primary: 10 78% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 20 25% 18%;
+    --secondary-foreground: 18 92% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 18 20% 16%;
+    --muted-foreground: 24 18% 72%;
 
     --accent: 12 35% 18%;
     --accent-foreground: 18 92% 95%;
@@ -81,8 +83,8 @@ All colors MUST be HSL.
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --border: 18 18% 22%;
+    --input: 18 18% 22%;
     --ring: 10 78% 58%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;

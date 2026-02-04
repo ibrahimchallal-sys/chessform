@@ -154,7 +154,16 @@ const Index = () => {
   const idGroups = groupOptions.filter((g) => g.category === "ID");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/60">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-background to-muted/60">
+      {/* Decorative color accents (token-based) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 top-24 h-80 w-80 rounded-full bg-secondary/35 blur-3xl"
+      />
       <div className="container flex flex-col items-center justify-center py-10">
         <div className="mb-8 flex w-full max-w-4xl items-center justify-between gap-4">
           <div>
