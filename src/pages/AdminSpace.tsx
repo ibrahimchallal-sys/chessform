@@ -58,13 +58,13 @@ const AdminSpace = () => {
     const parsedPassword = passwordSchema.safeParse(password);
 
     if (!parsedEmail.success) {
-      toast({ variant: "destructive", title: "Invalid email", description: parsedEmail.error.issues[0]?.message });
+      toast({ variant: "destructive", title: "Email invalide", description: parsedEmail.error.issues[0]?.message });
       return;
     }
     if (!parsedPassword.success) {
       toast({
         variant: "destructive",
-        title: "Invalid password",
+        title: "Mot de passe invalide",
         description: parsedPassword.error.issues[0]?.message,
       });
       return;
@@ -78,11 +78,11 @@ const AdminSpace = () => {
       });
 
       if (error) {
-        toast({ variant: "destructive", title: "Login failed", description: error.message });
+        toast({ variant: "destructive", title: "Connexion échouée", description: error.message });
         return;
       }
 
-      toast({ title: "Welcome", description: "You are now signed in." });
+      toast({ title: "Bienvenue", description: "Vous êtes connecté." });
     } finally {
       setLoading(false);
     }
@@ -93,9 +93,9 @@ const AdminSpace = () => {
       <div className="container flex min-h-screen items-center justify-center py-10">
         <div className="w-full max-w-md rounded-xl border bg-card p-6 shadow-sm">
           <header className="mb-6">
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">Admin access</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">Accès administrateur</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Sign in to access the tournament admin dashboard.
+              Connectez-vous pour accéder au tableau de bord du tournoi.
             </p>
           </header>
 
@@ -125,11 +125,11 @@ const AdminSpace = () => {
             </div>
 
             <Button type="button" className="w-full" onClick={submit} disabled={loading}>
-              {loading ? "Please wait…" : "Login"}
+              {loading ? "Veuillez patienter…" : "Se connecter"}
             </Button>
 
             <Button asChild variant="outline" className="w-full">
-              <Link to="/">Back to registration</Link>
+              <Link to="/">Retour à l'inscription</Link>
             </Button>
           </div>
         </div>

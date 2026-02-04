@@ -106,7 +106,7 @@ const Index = () => {
   });
 
   useEffect(() => {
-    document.title = "Chess Tournament Registration";
+    document.title = "Inscription au tournoi d'échecs";
   }, []);
 
   const onSubmit = async (values: RegistrationFormValues) => {
@@ -128,15 +128,15 @@ const Index = () => {
         console.error("Error inserting registration", error);
         toast({
           variant: "destructive",
-          title: "Registration failed",
-          description: error.message || "Please try again or contact the organizer.",
+          title: "Échec de l'inscription",
+          description: error.message || "Veuillez réessayer ou contacter l'organisateur.",
         });
         return;
       }
 
       toast({
-        title: "Registration submitted",
-        description: "Good luck in the tournament!",
+        title: "Inscription envoyée",
+        description: "Bonne chance pour le tournoi !",
       });
 
       form.reset();
@@ -144,8 +144,8 @@ const Index = () => {
       console.error("Unexpected error inserting registration", err);
       toast({
         variant: "destructive",
-        title: "Registration failed",
-        description: "Unexpected error, please try again shortly.",
+        title: "Échec de l'inscription",
+        description: "Erreur inattendue, veuillez réessayer dans un instant.",
       });
     }
   };
@@ -159,11 +159,11 @@ const Index = () => {
         <div className="mb-8 flex w-full max-w-4xl items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Chess Tournament Registration
+              Inscription au tournoi d'échecs
             </h1>
             <p className="mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
-              Register with your official group, school email and Moroccan phone
-              number to participate in the upcoming tournament.
+              Inscrivez-vous avec votre groupe officiel, votre email OFPPT et
+              votre numéro de téléphone marocain pour participer au tournoi.
             </p>
           </div>
           <div />
@@ -180,16 +180,16 @@ const Index = () => {
                   name="group"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Group</FormLabel>
+                      <FormLabel>Groupe</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select your group" />
+                            <SelectValue placeholder="Sélectionnez votre groupe" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="bg-popover">
                           <SelectGroup>
-                            <SelectLabel>DEV groups</SelectLabel>
+                            <SelectLabel>Groupes DEV</SelectLabel>
                             {devGroups.map((group) => (
                               <SelectItem key={group.value} value={group.value}>
                                 {group.label}
@@ -197,7 +197,7 @@ const Index = () => {
                             ))}
                           </SelectGroup>
                           <SelectGroup>
-                            <SelectLabel>ID groups</SelectLabel>
+                            <SelectLabel>Groupes ID</SelectLabel>
                             {idGroups.map((group) => (
                               <SelectItem key={group.value} value={group.value}>
                                 {group.label}
@@ -216,10 +216,10 @@ const Index = () => {
                   name="fullName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full name</FormLabel>
+                      <FormLabel>Nom complet</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="First name Last name"
+                          placeholder="Prénom Nom"
                           autoComplete="name"
                           {...field}
                         />
@@ -234,7 +234,7 @@ const Index = () => {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Moroccan phone number</FormLabel>
+                      <FormLabel>Numéro de téléphone marocain</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="0XXXXXXXXX or +212XXXXXXXXX"
@@ -253,7 +253,7 @@ const Index = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>OFFPT email</FormLabel>
+                      <FormLabel>Email OFPPT</FormLabel>
                       <FormControl>
                         <Input
                            type="email"
@@ -269,7 +269,7 @@ const Index = () => {
 
                 <div className="pt-2">
                   <Button type="submit" className="w-full">
-                    Submit registration
+                    Envoyer l'inscription
                   </Button>
                 </div>
               </form>
@@ -288,16 +288,17 @@ const Index = () => {
               </div>
             </div>
 
-            <h2 className="text-lg font-semibold tracking-tight">Tournament details</h2>
+            <h2 className="text-lg font-semibold tracking-tight">Détails du tournoi</h2>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Swiss-system rounds with official timing.</li>
-              <li>• Boards and clocks provided on site.</li>
-              <li>• Remember to arrive 15 minutes before the first round.</li>
-              <li>• Only students with a valid OFFPT email can register.</li>
+              <li>• Rondes système suisse avec cadence officielle.</li>
+              <li>• Échiquiers et pendules fournis sur place.</li>
+              <li>• Merci d’arriver 15 minutes avant la première ronde.</li>
+              <li>• Seuls les étudiants avec un email OFPPT valide peuvent s’inscrire.</li>
             </ul>
             <div className="rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-              Your data is stored securely in the tournament database. An
-              administrator can view submissions in the dashboard.
+              Vos données sont enregistrées en toute sécurité dans la base de
+              données du tournoi. Un administrateur peut consulter les
+              inscriptions dans le tableau de bord.
             </div>
           </aside>
         </div>
