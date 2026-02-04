@@ -37,7 +37,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = "Chess Admin Dashboard";
+    document.title = "Tableau de bord admin (Échecs)";
 
     const enforceAuthAndLoad = async () => {
       setLoading(true);
@@ -106,7 +106,7 @@ const AdminDashboard = () => {
   }, [registrations, search, groupFilter]);
 
   const clearAll = async () => {
-    if (!window.confirm("This will delete all registrations from the database. Are you sure?")) {
+    if (!window.confirm("Cela supprimera toutes les inscriptions de la base de données. Continuer ?")) {
       return;
     }
 
@@ -134,24 +134,24 @@ const AdminDashboard = () => {
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              Admin dashboard
+              Tableau de bord admin
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              View and filter chess tournament registrations stored in Supabase.
+              Consultez et filtrez les inscriptions du tournoi (stockées dans Supabase).
             </p>
           </div>
           <Button asChild variant="outline">
-            <Link to="/">Back to registration</Link>
+            <Link to="/">Retour à l'inscription</Link>
           </Button>
         </div>
 
         {loading ? (
-          <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground shadow-sm">Loading…</div>
+          <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground shadow-sm">Chargement…</div>
         ) : (
           <>
             <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border bg-card p-4 shadow-sm">
               <Input
-                placeholder="Search by name, email or group"
+                placeholder="Rechercher (nom, email, groupe)"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="max-w-xs"
@@ -162,9 +162,9 @@ const AdminDashboard = () => {
                   <SelectValue placeholder="Group" />
                 </SelectTrigger>
                 <SelectContent className="bg-popover">
-                  <SelectItem value="all">All groups</SelectItem>
-                  <SelectItem value="DEV">DEV only</SelectItem>
-                  <SelectItem value="ID">ID only</SelectItem>
+                  <SelectItem value="all">Tous</SelectItem>
+                  <SelectItem value="DEV">DEV</SelectItem>
+                  <SelectItem value="ID">ID</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -175,11 +175,11 @@ const AdminDashboard = () => {
                 onClick={clearAll}
                 disabled={registrations.length === 0}
               >
-                Clear all
+                Tout supprimer
               </Button>
 
               <Button variant="outline" type="button" onClick={logout}>
-                Log out
+                Se déconnecter
               </Button>
             </div>
 
@@ -187,18 +187,18 @@ const AdminDashboard = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Created</TableHead>
-                    <TableHead>Group</TableHead>
-                    <TableHead>Full name</TableHead>
+                    <TableHead>Créé le</TableHead>
+                    <TableHead>Groupe</TableHead>
+                    <TableHead>Nom complet</TableHead>
                     <TableHead>Email</TableHead>
-                    <TableHead>Phone</TableHead>
+                    <TableHead>Téléphone</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filtered.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">
-                        No registrations found yet.
+                        Aucune inscription pour le moment.
                       </TableCell>
                     </TableRow>
                   ) : (
