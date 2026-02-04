@@ -51,6 +51,19 @@ const groupOptions = [
 const emailPattern = /^\d{13}@ofppt-edu\.ma$/;
 const moroccanPhonePattern = /^(?:\+212|0)([ \-]?\d){9}$/;
 
+const normalizeEmail = (value: unknown) =>
+  typeof value === "string" ? value.replace(/\s+/g, "").trim() : value;
+
+const normalizePhone = (value: unknown) => {
+  if (typeof value !== "string") return value;
+  // remove whitespace + invisible unicode marks then keep only digits and a leading '+'
+  const stripped = value
+    .replace(/[\s\u200E\u200F\u202A-\u202E\u2066-\u2069]+/g, "")
+    .trim();
+  const keep = stripped.replace(/(?!^)\+/g, "").replace(/[^\d+]/g, "");
+  return keep;
+};
+
 const registrationSchema = z.object({
   group: z.string({ required_error: "Please select your group" }),
   fullName: z
@@ -59,13 +72,13 @@ const registrationSchema = z.object({
     .min(3, { message: "Full name must be at least 3 characters" })
     .max(100, { message: "Full name must be less than 100 characters" }),
   phone: z.preprocess(
-    (v) => (typeof v === "string" ? v.replace(/\s+/g, "").trim() : v),
+    normalizePhone,
     z.string().regex(moroccanPhonePattern, {
       message: "Enter a valid Moroccan phone (0XXXXXXXXX or +212XXXXXXXXX)",
     }),
   ),
   email: z.preprocess(
-    (v) => (typeof v === "string" ? v.replace(/\s+/g, "").trim() : v),
+    normalizeEmail,
     z
       .string()
       .regex(emailPattern, {
@@ -96,11 +109,17 @@ const Index = () => {
 
   const onSubmit = async (values: RegistrationFormValues) => {
     try {
+      const normalized = {
+        ...values,
+        phone: String(normalizePhone(values.phone)),
+        email: String(normalizeEmail(values.email)),
+      };
+
       const { error } = await supabase.from("registrations").insert({
-        group_code: values.group,
-        full_name: values.fullName,
-        phone: values.phone,
-        email: values.email,
+        group_code: normalized.group,
+        full_name: normalized.fullName,
+        phone: normalized.phone,
+        email: normalized.email,
       });
 
       if (error) {
@@ -110,7 +129,7 @@ const Index = () => {
           title: "Registration failed",
           description:
             error.code === "23514"
-              ? `Server validation failed: expected 13 digits + @ofppt-edu.ma. Sent: "${values.email}" (length ${values.email.length}).`
+              ? `Server validation failed. Sent email: "${normalized.email}" (len ${normalized.email.length}), phone: "${normalized.phone}".`
               : error.message || "Please try again or contact the organizer.",
         });
         return;
