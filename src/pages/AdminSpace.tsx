@@ -24,7 +24,6 @@ const AdminSpace = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,38 +72,17 @@ const AdminSpace = () => {
 
     setLoading(true);
     try {
-      if (mode === "login") {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: parsedEmail.data,
-          password: parsedPassword.data,
-        });
+      const { error } = await supabase.auth.signInWithPassword({
+        email: parsedEmail.data,
+        password: parsedPassword.data,
+      });
 
-        if (error) {
-          toast({ variant: "destructive", title: "Login failed", description: error.message });
-          return;
-        }
-
-        toast({ title: "Welcome", description: "You are now signed in." });
-      } else {
-        const redirectUrl = `${window.location.origin}/`;
-        const { error } = await supabase.auth.signUp({
-          email: parsedEmail.data,
-          password: parsedPassword.data,
-          options: {
-            emailRedirectTo: redirectUrl,
-          },
-        });
-
-        if (error) {
-          toast({ variant: "destructive", title: "Sign up failed", description: error.message });
-          return;
-        }
-
-        toast({
-          title: "Account created",
-          description: "Check your inbox to confirm your email (or disable confirmation in Supabase for testing).",
-        });
+      if (error) {
+        toast({ variant: "destructive", title: "Login failed", description: error.message });
+        return;
       }
+
+      toast({ title: "Welcome", description: "You are now signed in." });
     } finally {
       setLoading(false);
     }
@@ -120,25 +98,6 @@ const AdminSpace = () => {
               Sign in to access the tournament admin dashboard.
             </p>
           </header>
-
-          <div className="mb-5 flex gap-2">
-            <Button
-              type="button"
-              variant={mode === "login" ? "default" : "outline"}
-              className="flex-1"
-              onClick={() => setMode("login")}
-            >
-              Login
-            </Button>
-            <Button
-              type="button"
-              variant={mode === "signup" ? "default" : "outline"}
-              className="flex-1"
-              onClick={() => setMode("signup")}
-            >
-              Sign up
-            </Button>
-          </div>
 
           <div className="space-y-4">
             <div className="space-y-2">
@@ -158,7 +117,7 @@ const AdminSpace = () => {
               <Input
                 id="password"
                 type="password"
-                autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
@@ -166,14 +125,8 @@ const AdminSpace = () => {
             </div>
 
             <Button type="button" className="w-full" onClick={submit} disabled={loading}>
-              {loading ? "Please wait…" : mode === "login" ? "Login" : "Create account"}
+              {loading ? "Please wait…" : "Login"}
             </Button>
-
-            <div className="text-xs text-muted-foreground">
-              <p>
-                Note: Admin permissions are controlled by the <code>user_roles</code> table in Supabase.
-              </p>
-            </div>
 
             <Button asChild variant="outline" className="w-full">
               <Link to="/">Back to registration</Link>

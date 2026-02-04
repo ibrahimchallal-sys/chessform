@@ -35,12 +35,11 @@ const AdminDashboard = () => {
   const [search, setSearch] = useState("");
   const [groupFilter, setGroupFilter] = useState<string>("all");
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     document.title = "Chess Admin Dashboard";
 
-    const enforceAdminAndLoad = async () => {
+    const enforceAuthAndLoad = async () => {
       setLoading(true);
       const {
         data: { session },
@@ -48,27 +47,6 @@ const AdminDashboard = () => {
 
       if (!session?.user) {
         navigate(`/adminspace?redirect=${encodeURIComponent("/admin")}`, { replace: true });
-        return;
-      }
-
-      const { data: roles, error: rolesError } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .limit(1);
-
-      if (rolesError) {
-        console.error("Error checking admin role", rolesError);
-        setIsAdmin(false);
-        setLoading(false);
-        return;
-      }
-
-      const admin = (roles ?? []).length > 0;
-      setIsAdmin(admin);
-      if (!admin) {
-        setLoading(false);
         return;
       }
 
@@ -105,7 +83,7 @@ const AdminDashboard = () => {
       }
     });
 
-    enforceAdminAndLoad();
+    enforceAuthAndLoad();
     return () => subscription.unsubscribe();
   }, [navigate]);
 
@@ -163,15 +141,8 @@ const AdminDashboard = () => {
         </div>
 
         {loading ? (
-          <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground shadow-sm">
-            Loading…
-          </div>
-        ) : !isAdmin ? (
-          <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground shadow-sm">
-            You’re signed in but not an admin. Ask the project owner to grant you the <code>admin</code> role.
-          </div>
+          <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground shadow-sm">Loading…</div>
         ) : (
-
           <>
             <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border bg-card p-4 shadow-sm">
               <Input
