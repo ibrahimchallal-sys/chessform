@@ -164,9 +164,7 @@ const Index = () => {
               number to participate in the upcoming tournament.
             </p>
           </div>
-          <Button asChild variant="outline">
-            <Link to="/admin">Admin dashboard</Link>
-          </Button>
+          <div />
         </div>
 
         <div className="grid w-full max-w-4xl gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
