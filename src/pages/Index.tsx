@@ -297,11 +297,7 @@ const Index = () => {
               <li>• Merci d’arriver 15 minutes avant la première ronde.</li>
               <li>• Seuls les étudiants avec un email OFPPT valide peuvent s’inscrire.</li>
             </ul>
-            <div className="rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-              Vos données sont enregistrées en toute sécurité dans la base de
-              données du tournoi. Un administrateur peut consulter les
-              inscriptions dans le tableau de bord.
-            </div>
+            
           </aside>
         </div>
       </div>
