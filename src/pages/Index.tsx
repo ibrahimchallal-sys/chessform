@@ -296,8 +296,6 @@ const Index = () => {
             <h2 className="text-lg font-semibold tracking-tight">Détails du tournoi</h2>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>• Rondes système suisse avec cadence officielle.</li>
-              <li>• Échiquiers et pendules fournis sur place.</li>
-              <li>• Merci d’arriver 15 minutes avant la première ronde.</li>
               <li>• Seuls les étudiants avec un email OFPPT valide peuvent s’inscrire.</li>
             </ul>
             
